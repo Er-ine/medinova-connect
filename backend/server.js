@@ -2,11 +2,16 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 import User from "./models/User.js";
 import bcrypt from "bcryptjs";
@@ -18,6 +23,11 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
+
+// Basic health check route
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ status: "ok", message: "MERN backend is running" });
+});
 
 // MongoDB connection
 const MONGO_URI = process.env.MONGO_URI;
@@ -52,9 +62,11 @@ if (!MONGO_URI) {
     .catch(err => console.error("MongoDB connection error:", err));
 }
 
-// Basic health check route
-app.get("/api/health", (req, res) => {
-  res.status(200).json({ status: "ok", message: "MERN backend is running" });
+// Serve frontend build (must come after API routes)
+app.use(express.static(path.join(__dirname, "../dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../dist", "index.html"));
 });
 
 app.listen(PORT, () => {
