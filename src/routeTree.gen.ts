@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as PatientDashboardRouteImport } from './routes/patient-dashboard'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as DoctorsRouteImport } from './routes/doctors'
 import { Route as IndexRouteImport } from './routes/index'
@@ -19,6 +20,11 @@ import { Route as BookAppointmentIdRouteImport } from './routes/book-appointment
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PatientDashboardRoute = PatientDashboardRouteImport.update({
+  id: '/patient-dashboard',
+  path: '/patient-dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/doctors': typeof DoctorsRoute
   '/login': typeof LoginRoute
+  '/patient-dashboard': typeof PatientDashboardRoute
   '/register': typeof RegisterRoute
   '/book-appointment/$id': typeof BookAppointmentIdRoute
   '/doctor/$id': typeof DoctorIdRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/doctors': typeof DoctorsRoute
   '/login': typeof LoginRoute
+  '/patient-dashboard': typeof PatientDashboardRoute
   '/register': typeof RegisterRoute
   '/book-appointment/$id': typeof BookAppointmentIdRoute
   '/doctor/$id': typeof DoctorIdRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/doctors': typeof DoctorsRoute
   '/login': typeof LoginRoute
+  '/patient-dashboard': typeof PatientDashboardRoute
   '/register': typeof RegisterRoute
   '/book-appointment/$id': typeof BookAppointmentIdRoute
   '/doctor/$id': typeof DoctorIdRoute
@@ -78,6 +87,7 @@ export interface FileRouteTypes {
     | '/'
     | '/doctors'
     | '/login'
+    | '/patient-dashboard'
     | '/register'
     | '/book-appointment/$id'
     | '/doctor/$id'
@@ -86,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/doctors'
     | '/login'
+    | '/patient-dashboard'
     | '/register'
     | '/book-appointment/$id'
     | '/doctor/$id'
@@ -94,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/doctors'
     | '/login'
+    | '/patient-dashboard'
     | '/register'
     | '/book-appointment/$id'
     | '/doctor/$id'
@@ -103,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DoctorsRoute: typeof DoctorsRoute
   LoginRoute: typeof LoginRoute
+  PatientDashboardRoute: typeof PatientDashboardRoute
   RegisterRoute: typeof RegisterRoute
   BookAppointmentIdRoute: typeof BookAppointmentIdRoute
   DoctorIdRoute: typeof DoctorIdRoute
@@ -115,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/register'
       fullPath: '/register'
       preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/patient-dashboard': {
+      id: '/patient-dashboard'
+      path: '/patient-dashboard'
+      fullPath: '/patient-dashboard'
+      preLoaderRoute: typeof PatientDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -159,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DoctorsRoute: DoctorsRoute,
   LoginRoute: LoginRoute,
+  PatientDashboardRoute: PatientDashboardRoute,
   RegisterRoute: RegisterRoute,
   BookAppointmentIdRoute: BookAppointmentIdRoute,
   DoctorIdRoute: DoctorIdRoute,
